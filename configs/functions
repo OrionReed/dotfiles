@@ -1,0 +1,50 @@
+# ~/.functions - Custom shell functions
+
+# Your existing killport function
+killport() {
+  if lsof -t -i tcp:$1 >/dev/null 2>&1; then
+    kill -9 $(lsof -t -i tcp:$1)
+    echo "Killed process(es) on port $1"
+  else
+    echo "No process to kill on port $1"
+  fi
+}
+
+# Your awesome glog function
+glog() {
+  local merge_base search_term
+  # Check if a search term was provided
+  if [ -z "$1" ]; then
+    echo "Usage: glog <search_term>" >&2
+    return 1
+  fi
+  search_term="$1"
+
+  # Find the common ancestor commit
+  merge_base=$(git merge-base HEAD main)
+  if [ -z "$merge_base" ]; then
+    echo "Error: Could not find merge-base between HEAD and main." >&2
+    return 1
+  fi
+
+  # Run the diff and process with awk, passing the search term
+  git diff -G"$search_term" "$merge_base" HEAD | awk -v term="$search_term" '
+    /^diff --git a\/.* b\/(.*)/ { current_file = substr($4, 3); line_offset = 0; in_hunk = 0; next }
+    /^@@ .* \+([0-9]+)/ {
+      split($3, parts, ",");
+      hunk_start_line = parts[1];
+      sub(/^\+/, "", hunk_start_line);
+      line_offset = 0;
+      in_hunk = 1;
+      next
+    }
+    in_hunk == 1 {
+      if ( /^\+/ && index(substr($0, 2), term) ) {
+        current_line_number = hunk_start_line + line_offset
+        print current_file ":" current_line_number ":" substr($0, 2)
+      }
+      if ( /^\+/ || /^ / ) {
+        line_offset++
+      }
+    }'
+}

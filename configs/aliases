@@ -1,0 +1,11 @@
+# ~/.aliases - Essential command shortcuts only
+
+# Your existing aliases
+alias ip='ipconfig getifaddr en0'
+alias serve='killport 8000; python3 -m http.server 8000'
+alias p='python'
+alias nr='npm run'
+alias ni='npm install'
+alias gpf='git push --force-with-lease'
+alias gp='git push'
+alias gs='git reset $(git merge-base HEAD main) && git add .'
