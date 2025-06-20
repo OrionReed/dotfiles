@@ -22,9 +22,6 @@ export PATH="/opt/homebrew/bin:$PATH"
 echo "📦 Installing dotbot..."
 /opt/homebrew/bin/brew install dotbot
 
-# Update PATH to include dotbot
-export PATH="/opt/homebrew/bin:$PATH"
-
 # Clone dotfiles
 DOTFILES_DIR="$HOME/.dotfiles"
 if [ ! -d "$DOTFILES_DIR" ]; then
@@ -35,9 +32,13 @@ else
   cd "$DOTFILES_DIR" && git pull
 fi
 
-# Run dotbot
-echo "⚙️ Installing..."
+# Install packages from Brewfile
+echo "📦 Installing packages..."
 cd "$DOTFILES_DIR"
+/opt/homebrew/bin/brew bundle --file=Brewfile
+
+# Run dotbot for configuration
+echo "⚙️ Configuring..."
 /opt/homebrew/bin/dotbot -c install.conf.yaml
 
 echo "✅ Done!"

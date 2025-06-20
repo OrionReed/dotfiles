@@ -1,3 +1,5 @@
+# ~/.zshrc - Minimal, clean zsh configuration
+
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
