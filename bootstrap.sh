@@ -12,6 +12,13 @@ if ! command -v brew >/dev/null 2>&1; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+# Install dotbot first
+eval "$(/opt/homebrew/bin/brew shellenv)"
+if ! command -v dotbot >/dev/null 2>&1; then
+  echo "📦 Installing dotbot..."
+  brew install dotbot
+fi
+
 # Clone dotfiles
 DOTFILES_DIR="$HOME/.dotfiles"
 if [ ! -d "$DOTFILES_DIR" ]; then
@@ -25,7 +32,6 @@ fi
 # Run dotbot
 echo "⚙️ Installing..."
 cd "$DOTFILES_DIR"
-eval "$(/opt/homebrew/bin/brew shellenv)"
 dotbot -c install.conf.yaml
 
 echo "✅ Done!"
