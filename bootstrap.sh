@@ -29,9 +29,19 @@ else
   cd "$DOTFILES_DIR" && git pull && git submodule update --init --recursive
 fi
 
+# Ensure dotbot submodule is properly initialized
+echo "🔧 Initializing dotbot..."
+cd "$DOTFILES_DIR"
+git submodule update --init --recursive
+
+# Verify dotbot is ready
+if [ ! -f "./dotbot/bin/dotbot" ]; then
+  echo "❌ Error: Dotbot not properly initialized"
+  exit 1
+fi
+
 # Run Dotbot (handles all configuration, packages, and setup)
 echo "⚙️  Running Dotbot installation..."
-cd "$DOTFILES_DIR"
 "./dotbot/bin/dotbot" -d "$(pwd)" -c "install.conf.yaml"
 
 # Source the new shell configuration
