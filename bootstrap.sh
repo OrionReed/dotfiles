@@ -15,11 +15,16 @@ else
   cd "$DOTFILES_DIR" && git pull && git submodule update --init --recursive
 fi
 
-# Run dotbot
+# Run dotbot (using exact official pattern)
 echo "⚙️ Installing..."
 cd "$DOTFILES_DIR"
-git -C "dotbot" submodule sync --quiet --recursive
-git submodule update --init --recursive "dotbot"
-"./dotbot/bin/dotbot" -d "$(pwd)" -c "install.conf.yaml"
+
+# Official dotbot submodule initialization
+DOTBOT_DIR="dotbot"
+git -C "${DOTBOT_DIR}" submodule sync --quiet --recursive
+git submodule update --init --recursive "${DOTBOT_DIR}"
+
+# Run dotbot
+"${DOTBOT_DIR}/bin/dotbot" -d "$(pwd)" -c "install.conf.yaml"
 
 echo "✅ Done!"
