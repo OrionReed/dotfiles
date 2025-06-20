@@ -8,7 +8,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Node.js version manager
 export NVM_DIR="$HOME/.nvm"
-source "$(brew --prefix nvm)/nvm.sh"
+source "/opt/homebrew/opt/nvm/nvm.sh"
 
 # Python environment (pyenv)
 if command -v pyenv >/dev/null 2>&1; then
