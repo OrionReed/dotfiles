@@ -1,5 +1,4 @@
 # Brewfile - Minimal, essential development tools only
-tap "homebrew/bundle"
 
 brew "zsh"
 brew "starship"         
