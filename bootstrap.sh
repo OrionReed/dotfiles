@@ -9,17 +9,21 @@ echo "🚀 Setting up dotfiles..."
 if ! command -v brew >/dev/null 2>&1; then
   echo "📦 Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  # Ensure Homebrew is properly sourced in the current shell
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zprofile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# Ensure Homebrew is in PATH
+# Double-check Homebrew is available
 export PATH="/opt/homebrew/bin:$PATH"
-eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Install dotbot first
-if ! command -v dotbot >/dev/null 2>&1; then
-  echo "📦 Installing dotbot..."
-  /opt/homebrew/bin/brew install dotbot
-fi
+# Install dotbot
+echo "📦 Installing dotbot..."
+/opt/homebrew/bin/brew install dotbot
+
+# Update PATH to include dotbot
+export PATH="/opt/homebrew/bin:$PATH"
 
 # Clone dotfiles
 DOTFILES_DIR="$HOME/.dotfiles"
@@ -34,6 +38,6 @@ fi
 # Run dotbot
 echo "⚙️ Installing..."
 cd "$DOTFILES_DIR"
-dotbot -c install.conf.yaml
+/opt/homebrew/bin/dotbot -c install.conf.yaml
 
 echo "✅ Done!"
