@@ -3,6 +3,7 @@ tap "homebrew/bundle"
 
 brew "zsh"
 brew "starship"         
+brew "dotbot"          
 brew "nvm"               
 brew "python"
 brew "pyenv"
