@@ -3,7 +3,8 @@
       relink: true
       create: true
     shell:
-      quiet: false
+      stderr: true
+      stdout: true
 
 - clean: ["~"]
 
@@ -19,36 +20,5 @@
     - ~/.local/bin
 
 - shell:
-    - description: Ensure Homebrew is available
-      command: |
-        if ! command -v brew >/dev/null 2>&1; then
-          echo "Installing Homebrew..."
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        fi
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-
-    - description: Install packages
-      command: |
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-        brew bundle --file=Brewfile --no-lock
-
-    - description: Copy git-graph if exists
-      command: |
-        if [ -f "$HOME/.dev/git-graph" ]; then
-          cp "$HOME/.dev/git-graph" ~/.local/bin/git-graph
-          chmod +x ~/.local/bin/git-graph
-          echo "Copied git-graph to ~/.local/bin"
-        fi
-
-    - description: Setup Python environment
-      command: |
-        if command -v pyenv >/dev/null 2>&1; then
-          if [ -z "$(pyenv versions --bare)" ]; then
-            pyenv install 3.11.0
-            pyenv global 3.11.0
-          fi
-        fi
-
-- shell:
-    - command: echo "✅ Dotfiles installed! Restart your terminal or run 'source ~/.zshrc'"
-      description: Installation complete
+    - description: Install packages from Brewfile
+      command: brew bundle --file=Brewfile --no-lock

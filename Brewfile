@@ -1,19 +1,13 @@
 # Brewfile - Minimal, essential development tools only
 tap "homebrew/bundle"
 
-# Core development tools
-brew "git"
 brew "zsh"
-brew "starship"          # Modern prompt
-
-# Development environments  
-brew "node"              # Basic Node (no version manager)
+brew "starship"         
+brew "nvm"               
 brew "python"
 brew "pyenv"
+brew "delta"         
 
-# Git enhancement (you specifically want this)
-brew "delta"             # Better git diff
-
-# Zsh enhancements (minimal)
+# Zsh
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
